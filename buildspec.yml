@@ -19,13 +19,13 @@ phases:
       #- mvn clean verify sonar:sonar -Dsonar.projectKey=GembookSvc-prod -Dsonar.projectName=GembookSvc-prod -Dsonar.host.url=https://sonarqube.geminisolutions.com -Dsonar.login=sqp_724ad76ff6f78f0a347be3dd3634d58cdeaeb204 -Dsonar.qualitygate.wait=true
       - mvn package
       - echo Building the Docker image...          
-      - docker build -f Dockerfile -t public.ecr.aws/w2w6c6x2/gembooksvc:latest .
+      - docker build -f Dockerfile -t 543223517360.dkr.ecr.ap-south-1.amazonaws.com/dockercreds:latest .
 
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push public.ecr.aws/w2w6c6x2/gembooksvc:latest 
+      - docker push 543223517360.dkr.ecr.ap-south-1.amazonaws.com/dockercreds:latest 
       #- docker push $REPOSITORY_URI:$CODEBUILD_BUILD_NUMBER
       - echo Push the latest image to cluster
       - kubectl apply -f Deployment.yaml

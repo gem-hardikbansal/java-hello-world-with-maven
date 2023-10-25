@@ -7,6 +7,7 @@ phases:
       - echo check config 
       - kubectl config view --minify
       - echo check kubectl access
+      - kubectl config get-contexts
       - kubectl get svc
       - echo Logging in to Amazon ECR...
       - docker login --username AWS -p $(aws ecr get-login-password --region ap-south-1) 543223517360.dkr.ecr.ap-south-1.amazonaws.com

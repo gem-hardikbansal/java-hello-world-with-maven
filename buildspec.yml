@@ -1,0 +1,32 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - aws eks --region ap-south-1 update-kubeconfig --name gem-eks-cluster-prod
+      - echo check config 
+      - kubectl config view --minify
+      - echo check kubectl access
+      - kubectl get svc
+      - echo Logging in to Amazon ECR...
+      #- docker login --username AWS -p $(aws ecr get-login-password --region ap-south-1) 947681381905.dkr.ecr.ap-south-1.amazonaws.com
+      - docker login --username AWS --password-stdin public.ecr.aws/w2w6c6x2
+      #- REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/gembooksvc
+
+  build:
+    commands:
+      - echo Build started on `date`
+      #- mvn clean verify sonar:sonar -Dsonar.projectKey=GembookSvc-prod -Dsonar.projectName=GembookSvc-prod -Dsonar.host.url=https://sonarqube.geminisolutions.com -Dsonar.login=sqp_724ad76ff6f78f0a347be3dd3634d58cdeaeb204 -Dsonar.qualitygate.wait=true
+      - mvn package
+      - echo Building the Docker image...          
+      - docker build -f Dockerfile -t public.ecr.aws/w2w6c6x2/gembooksvc:latest .
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push public.ecr.aws/w2w6c6x2/gembooksvc:latest 
+      #- docker push $REPOSITORY_URI:$CODEBUILD_BUILD_NUMBER
+      - echo Push the latest image to cluster
+      - kubectl apply -f Deployment.yaml
+      - kubectl rollout restart Deployment gembook-svc-deployment -n dev

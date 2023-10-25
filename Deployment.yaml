@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: gembook-svc
-        image: public.ecr.aws/w2w6c6x2/gembooksvc:latest
+        image: 543223517360.dkr.ecr.ap-south-1.amazonaws.com/dockercreds:latest
         # envFrom:
         # - secretRef:
         #     name: secret-gembook-db

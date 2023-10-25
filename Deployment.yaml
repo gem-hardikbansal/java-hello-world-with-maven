@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gembook-svc-deployment
+  namespace: dev
+  labels:
+    app: gembook-svc
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: gembook-svc
+  template:
+    metadata:
+      labels:
+        app: gembook-svc
+    spec:
+      containers:
+      - name: gembook-svc
+        image: public.ecr.aws/w2w6c6x2/gembooksvc:latest
+        # envFrom:
+        # - secretRef:
+        #     name: secret-gembook-db
+        # - secretRef:
+        #     name: secret-gembook-s3
+        ports:
+        - name: gembook
+          containerPort: 80
+        imagePullPolicy: Always

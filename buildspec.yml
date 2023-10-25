@@ -9,8 +9,8 @@ phases:
       - echo check kubectl access
       # - kubectl get svc
       - echo Logging in to Amazon ECR...
-      #- docker login --username AWS -p $(aws ecr get-login-password --region ap-south-1) 947681381905.dkr.ecr.ap-south-1.amazonaws.com
-      - docker login --username AWS --password-stdin public.ecr.aws/w2w6c6x2
+      - docker login --username AWS -p $(aws ecr get-login-password --region ap-south-1) 543223517360.dkr.ecr.ap-south-1.amazonaws.com
+      # - docker login --username AWS --password-stdin public.ecr.aws/w2w6c6x2
       #- REPOSITORY_URI=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/gembooksvc
 
   build:
